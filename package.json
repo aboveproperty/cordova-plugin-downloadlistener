@@ -62,5 +62,5 @@
     "test": "npm run eslint"
   },
   "types": "./types/index.d.ts",
-  "version": "3.0.2"
+  "version": "3.2.0"
 }
