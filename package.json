@@ -1,34 +1,4 @@
 {
-  "_args": [
-    [
-      "cordova-plugin-downloadlistener@1.0.0",
-      "D:\\Jawahar\\Learning\\Ionic\\Apps\\elcom_26Aug19"
-    ]
-  ],
-  "_from": "cordova-plugin-downloadlistener@3.0.2",
-  "_id": "cordova-plugin-downloadlistener@3.0.2",
-  "_inBundle": false,
-  "_integrity": "sha512-Qwkmgs08Y+FzYuQ3fn2cj5Hgaj29lOua0upImEBWtmARtH9PS+H6cjdk5LFLP/AM1ciLuiiTbFeqC7qW4RLMBQ==",
-  "_location": "/cordova-plugin-downloadlistener",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "cordova-plugin-downloadlistener@3.0.2",
-    "name": "cordova-plugin-downloadlistener",
-    "escapedName": "cordova-plugin-downloadlistener",
-    "rawSpec": "3.0.2",
-    "saveSpec": null,
-    "fetchSpec": "3.0.2"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/cordova-plugin-downloadlistener/-/cordova-plugin-downloadlistener-3.0.2.tgz",
-  "_shasum": "50d1f0a7dc91cd10d9b663db7284274a99fa0b6b",
-  "_spec": "cordova-plugin-downloadlistener@3.0.2",
-  "_where": "/Users/judylenart/projects/MOBILE/aboveproperty.mobile-hotels",
   "author": {
     "name": "Apache Software Foundation"
   },
