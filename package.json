@@ -7,7 +7,7 @@
   },
   "bundleDependencies": false,
   "cordova": {
-    "id": "cordova-plugin-downloadlistener",
+    "id": "cordova-plugin-downloadlistener 3.2.0",
     "platforms": [
       "android",
       "browser",
@@ -52,7 +52,7 @@
     "cordova-windows"
   ],
   "license": "Apache-2.0",
-  "name": "cordova-plugin-downloadlistener",
+  "name": "cordova-plugin-downloadlistenerUpdated",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intergy/cordova-plugin-downloadlistener.git"
