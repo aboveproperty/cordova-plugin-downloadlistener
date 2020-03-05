@@ -819,7 +819,8 @@ BOOL isExiting = FALSE;
     [self.spinner stopAnimating];
     
     self.closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(close)];
-    self.closeButton.enabled = YES;
+    self.closeButton.enabled = NO;
+    self.closeButton.tintColor = UIColor.clear //hide the done button
     
     UIBarButtonItem* flexibleSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
