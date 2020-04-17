@@ -846,24 +846,56 @@ public class InAppBrowser extends CordovaPlugin {
                 inAppWebView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
                 inAppWebView.setId(Integer.valueOf(6));
                 // File Chooser Implemented ChromeClient
+                private String mCM;
                 inAppWebView.setWebChromeClient(new InAppChromeClient(thatWebView) {
                     // For Android 5.0+
                     public boolean onShowFileChooser (WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams)
                     {
                         LOG.d(LOG_TAG, "File Chooser 5.0+");
+
                         // If callback exists, finish it.
                         if(mUploadCallbackLollipop != null) {
                             mUploadCallbackLollipop.onReceiveValue(null);
                         }
                         mUploadCallbackLollipop = filePathCallback;
 
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                        if(takePictureIntent.resolveActivity(cordova.getActivity().getPackageManager()) != null) {
+
+                            File photoFile = null;
+                            try{
+                                photoFile = createImageFile();
+                                takePictureIntent.putExtra("PhotoPath", mCM);
+                            }catch(IOException ex){
+                                Log.e(LOG_TAG, "Image file creation failed", ex);
+                            }
+                            if(photoFile != null){
+                                mCM = "file:" + photoFile.getAbsolutePath();
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                            }else{
+                                takePictureIntent = null;
+                            }
+                        }
                         // Create File Chooser Intent
-                        Intent content = new Intent(Intent.ACTION_GET_CONTENT);
-                        content.addCategory(Intent.CATEGORY_OPENABLE);
-                        content.setType("*/*");
+                        Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                        contentSelectionIntent.setType("*/*");
+                        Intent[] intentArray;
+                        if(takePictureIntent != null){
+                            intentArray = new Intent[]{takePictureIntent};
+                        }else{
+                            intentArray = new Intent[0];
+                        }
+
+                        Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
+                        chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
+                        chooserIntent.putExtra(Intent.EXTRA_TITLE, "Selecione a imagem");
+                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
 
                         // Run cordova startActivityForResult
-                        cordova.startActivityForResult(InAppBrowser.this, Intent.createChooser(content, "Select File"), FILECHOOSER_REQUESTCODE_LOLLIPOP);
+                        cordova.startActivityForResult(InAppBrowser.this, chooserIntent, FILECHOOSER_REQUESTCODE);
+
                         return true;
                     }
 
@@ -1067,7 +1099,14 @@ public class InAppBrowser extends CordovaPlugin {
         
 
     }
-
+       
+    private File createImageFile() throws IOException{
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "img_"+timeStamp+"_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(imageFileName,".jpg",storageDir);
+    }  
+      
     /**
      * Create a new plugin success result and send it back to JavaScript
      *
@@ -1101,16 +1140,33 @@ public class InAppBrowser extends CordovaPlugin {
      * @param resultCode the result code returned from android system
      * @param intent the data from android file chooser
      */
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         // For Android >= 5.0
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
             LOG.d(LOG_TAG, "onActivityResult (For Android >= 5.0)");
-            // If RequestCode or Callback is Invalid
-            if(requestCode != FILECHOOSER_REQUESTCODE_LOLLIPOP || mUploadCallbackLollipop == null) {
-                super.onActivityResult(requestCode, resultCode, intent);
-                return;
+
+            Uri[] results = null;
+            //Check if response is positive
+            if(resultCode== Activity.RESULT_OK){
+                if(requestCode == FILECHOOSER_REQUESTCODE){
+                    if(null == mUploadCallbackLollipop){
+                        return;
+                    }
+                    if(intent == null || intent.getData() == null){
+                        //Capture Photo if no image available
+                        if(mCM != null){
+                            results = new Uri[]{Uri.parse(mCM)};
+                        }
+                    }else{
+                        String dataString = intent.getDataString();
+                        if(dataString != null){
+                            results = new Uri[]{Uri.parse(dataString)};
+                        }
+                    }
+                }
             }
-            mUploadCallbackLollipop.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, intent));
+            mUploadCallbackLollipop .onReceiveValue(results);
             mUploadCallbackLollipop = null;
         }
         // For Android < 5.0
@@ -1129,7 +1185,6 @@ public class InAppBrowser extends CordovaPlugin {
             mUploadCallback = null;
         }
     }
-
     /**
      * The webview client receives notifications about appView
      */
