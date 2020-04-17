@@ -86,6 +86,15 @@ import android.widget.Toast;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 
+import android.app.Activity;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @SuppressLint("SetJavaScriptEnabled")
 public class InAppBrowser extends CordovaPlugin {
 
@@ -144,6 +153,7 @@ public class InAppBrowser extends CordovaPlugin {
     private boolean showFooter = false;
     private String footerColor = "";
     private String[] allowedSchemes;
+    private String mCM;
 
     /**
      * Executes the request and returns PluginResult.
@@ -846,7 +856,7 @@ public class InAppBrowser extends CordovaPlugin {
                 inAppWebView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
                 inAppWebView.setId(Integer.valueOf(6));
                 // File Chooser Implemented ChromeClient
-                private String mCM;
+                
                 inAppWebView.setWebChromeClient(new InAppChromeClient(thatWebView) {
                     // For Android 5.0+
                     public boolean onShowFileChooser (WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams)
