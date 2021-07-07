@@ -7,7 +7,7 @@
   },
   "bundleDependencies": false,
   "cordova": {
-    "id": "cordova-plugin-downloadlistener 3.2.0",
+    "id": "cordova-plugin-downloadlistener 3.3.0",
     "platforms": [
       "android",
       "browser",
@@ -22,7 +22,7 @@
     "eslint": "^4.0.0",
     "eslint-config-semistandard": "^11.0.0",
     "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^3.2.0",
+    "eslint-plugin-import": "^5.0.0",
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.2.0"
@@ -62,5 +62,5 @@
     "test": "npm run eslint"
   },
   "types": "./types/index.d.ts",
-  "version": "3.2.0"
+  "version": "3.3.0"
 }
