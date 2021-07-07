@@ -1286,3 +1286,4 @@ BOOL isExiting = FALSE;
 
 
 @end //CDVWKInAppBrowserViewController
+
