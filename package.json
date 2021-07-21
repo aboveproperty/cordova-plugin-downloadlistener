@@ -7,7 +7,7 @@
   },
   "bundleDependencies": false,
   "cordova": {
-    "id": "cordova-plugin-downloadlistener 3.3.0",
+    "id": "cordova-plugin-downloadlistener 3.3.1",
     "platforms": [
       "android",
       "browser",
@@ -52,7 +52,7 @@
     "cordova-windows"
   ],
   "license": "Apache-2.0",
-  "name": "cordova-plugin-downloadlistenerUpdated",
+  "name": "cordova-plugin-downloadlistener",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intergy/cordova-plugin-downloadlistener.git"
@@ -62,5 +62,5 @@
     "test": "npm run eslint"
   },
   "types": "./types/index.d.ts",
-  "version": "3.3.0"
+  "version": "3.3.1"
 }
